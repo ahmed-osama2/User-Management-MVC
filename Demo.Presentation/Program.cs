@@ -1,3 +1,8 @@
+﻿using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+
 namespace Demo.Presentation
 {
     public class Program
@@ -9,7 +14,22 @@ namespace Demo.Presentation
             #region Add services to the container
             builder.Services.AddControllersWithViews();
 
+            //builder.Services.AddScoped<ApplicationDbContext>(); // 2. Register To Service In DI Container ** 
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(connectionString: builder.Configuration.GetConnectionString(name: "DefaultConnection"));
+
+                #region طريقة اخري
+                //options.UseSqlServer(connectionString: builder.Configuration[key: "ConnectionStrings: DefaultConnection"]);
+                //options.UseSqlServer(connectionString: builder.Configuration.GetSection(key: "ConnectionStrings")[key: "DefaultConnection"]); 
+                #endregion
+            });
+
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); // الطوة التانية بعد الانجكت الخاص DepartmentService
             #endregion
+
+
 
             #region  Configure the HTTP request pipelineMyRegion
 
@@ -32,7 +52,7 @@ namespace Demo.Presentation
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"); 
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             #endregion
 
             app.Run();
