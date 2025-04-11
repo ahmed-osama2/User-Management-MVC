@@ -11,10 +11,10 @@ namespace Demo.DataAccess.Data.Contexts
 
         }
         public DbSet<Department> Department { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(connectionString: "ConnectionString");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(connectionString: "ConnectionString");
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
