@@ -1,5 +1,6 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects;
-using Demo.BusinessLogic.Services;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDtos;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.models;
 using Demo.Presentation.Views.DepartmentViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,7 @@ namespace Demo.Presentation.Controllers
         public IActionResult Create() => View();
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Create(CreatedDepartmentDto departmentDto)
         {
             if (ModelState.IsValid)

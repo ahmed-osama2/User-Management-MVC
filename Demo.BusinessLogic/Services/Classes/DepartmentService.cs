@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDtos;
 using Demo.BusinessLogic.Factories;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.models;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Interfaces;
 
-namespace Demo.BusinessLogic.Services
+namespace Demo.BusinessLogic.Services.Classes
 {
     public class DepartmentService(IDepartmentRepository _departmentRepository) : IDepartmentService
     {
@@ -56,7 +57,7 @@ namespace Demo.BusinessLogic.Services
         // update Department
         public int UpdateDepartment(UpdatedDepartmentDto departmentDto)
         {
-            return _departmentRepository.Update(department: departmentDto.ToEntity());
+            return _departmentRepository.Update( departmentDto.ToEntity());
         }
 
         // Delete Department
@@ -66,7 +67,7 @@ namespace Demo.BusinessLogic.Services
             if (Department is null) return false;
             else
             {
-                int Result = _departmentRepository.remove(Department);
+                int Result = _departmentRepository.Remove(Department);
                 return Result > 0 ? true : false;
             }
 

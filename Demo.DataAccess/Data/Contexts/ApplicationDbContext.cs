@@ -1,6 +1,7 @@
 ﻿
 
 using System.Reflection;
+using Demo.DataAccess.models.DepartmentModel;
 
 namespace Demo.DataAccess.Data.Contexts
 {
@@ -11,6 +12,7 @@ namespace Demo.DataAccess.Data.Contexts
 
         }
         public DbSet<Department> Department { get; set; }
+        public DbSet<Employee> Employeess { get; set; }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.UseSqlServer(connectionString: "ConnectionString");

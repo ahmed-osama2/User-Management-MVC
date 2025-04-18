@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Demo.BusinessLogic.DataTransferObjects;
-using Demo.DataAccess.models;
+using Demo.BusinessLogic.DataTransferObjects.DepartmentDtos;
+using Demo.DataAccess.models.DepartmentModel;
 
 namespace Demo.BusinessLogic.Factories
 {
@@ -29,6 +29,9 @@ namespace Demo.BusinessLogic.Factories
                 Id = department.Id,
                 Name = department.Name,
                 CreatedOn = DateOnly.FromDateTime(department.CreatedOn),
+                Code=department.Code,
+                Description=department.Description,
+
 
             };
 

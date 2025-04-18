@@ -5,19 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Demo.BusinessLogic.DataTransferObjects
+namespace Demo.BusinessLogic.DataTransferObjects.DepartmentDtos
 {
     public class CreatedDepartmentDto
     {
         [Required]
         public string Name { get; set; } = null!;
         [Required]
-        [Range(100 , int.MaxValue)]
+        [Range(100, int.MaxValue)]
         public string Code { get; set; } = null!;
 
         public DateOnly DateOfCreation { get; set; }
 
-        public string? Description { get; set; } 
+        public string? Description { get; set; }
 
     }
 }

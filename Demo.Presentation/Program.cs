@@ -1,6 +1,10 @@
-﻿using Demo.BusinessLogic.Services;
+﻿using Demo.BusinessLogic.Profiles;
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Classes;
+using Demo.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -10,58 +14,57 @@ namespace Demo.Presentation
     {
         public static void Main(string[] args)
         {
-            //    var builder = WebApplication.CreateBuilder(args);
+            //var builder = WebApplication.CreateBuilder(args);
 
-            //    #region Add services to the container
-            //    builder.Services.AddControllersWithViews();
+            //#region Add services to the container
+            //builder.Services.AddControllersWithViews(Options=>
+            //Options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
-            //    //builder.Services.AddScoped<ApplicationDbContext>(); // 2. Register To Service In DI Container ** 
-
-            //    //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    //{
-            //    //    options.UseSqlServer(connectionString: builder.Configuration.GetConnectionString(name:"DefaultConnection"));
-
-            //    //    #region طريقة اخري
-            //    //    //options.UseSqlServer(connectionString: builder.Configuration[key: "ConnectionStrings: DefaultConnection"]);
-            //    //    //options.UseSqlServer(connectionString: builder.Configuration.GetSection(key: "ConnectionStrings")[key: "DefaultConnection"]); 
-            //    //    #endregion
-            //    //});
-            //    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            //    {
-            //        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            //    });
-
-            //    builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); // الطوة التانية بعد الانجكت الخاص DepartmentService
-            //    #endregion
-            //    // demo sesstion 4
-            //    builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+       
+            //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            //{
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            //});
 
 
-            //    #region  Configure the HTTP request pipelineMyRegion
 
-            //    var app = builder.Build();
+            //builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>(); // الطوة التانية بعد الانجكت الخاص DepartmentService
+            //#endregion
+            //// demo sesstion 4
+            //builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
-            //    if (!app.Environment.IsDevelopment())
-            //    {
-            //        app.UseExceptionHandler("/Home/Error");
-            //        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //        app.UseHsts();
-            //    }
+            //// dempm MVC 05 *******
+            //builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            //// Add Auto Mapper
+            //builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
+            //// add employeeservice in controller
+            //builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
-            //    app.UseHttpsRedirection();
+            //#region  Configure the HTTP request pipelineMyRegion
 
-            //    app.UseStaticFiles();
+            //var app = builder.Build();
 
-            //    app.UseRouting();
+            //if (!app.Environment.IsDevelopment())
+            //{
+            //    app.UseExceptionHandler("/Home/Error");
+            //    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //    app.UseHsts();
+            //}
 
-            //    //app.UseAuthorization();
+            //app.UseHttpsRedirection();
 
-            //    app.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //    #endregion
+            //app.UseStaticFiles();
 
-            //    app.Run();
+            //app.UseRouting();
+
+            ////app.UseAuthorization();
+
+            //app.MapControllerRoute(
+            //    name: "default",
+            //    pattern: "{controller=Home}/{action=Index}/{id?}");
+            //#endregion
+
+            //app.Run();
         }
     }
 }
