@@ -12,7 +12,7 @@ namespace Demo.DataAccess.Data.Contexts
 
         }
         public DbSet<Department> Department { get; set; }
-        public DbSet<Employee> Employeess { get; set; }
+        public DbSet<Employee> Employees { get; set; }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    optionsBuilder.UseSqlServer(connectionString: "ConnectionString");

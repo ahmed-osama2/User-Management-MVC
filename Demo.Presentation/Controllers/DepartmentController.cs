@@ -2,7 +2,8 @@
 using Demo.BusinessLogic.DataTransferObjects.DepartmentDtos;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.models;
-using Demo.Presentation.Views.DepartmentViewModel;
+using Demo.Presentation.ViewModels;
+using Demo.Presentation.ViewModels.DepartmentViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
@@ -11,40 +12,55 @@ namespace Demo.Presentation.Controllers
         ILogger<DepartmentController> _logger,
         IWebHostEnvironment _environment) : Controller
     {
+
+        #region GetAllDepartments
         //Get BassUrl /Department / Index
         [HttpGet]
         public IActionResult Index()
         {
             var departments = _departmentService.GetAllDepartments();
             return View(departments);
-        }
+        }  
+        #endregion
 
         #region Create Department
         [HttpGet]
         public IActionResult Create() => View();
-
+    
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(CreatedDepartmentDto departmentDto)
+        //[ValidateAntiForgeryToken]
+        public IActionResult Create(DepartmentViewModel DepartmentViewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+
+                    var departmentDto = new CreatedDepartmentDto()
+                    {
+                        Name = DepartmentViewModel.Name,
+                        Code = DepartmentViewModel.Code,
+                        DateOfCreation = DepartmentViewModel.DateOfCreation,
+                        Description = DepartmentViewModel.Description
+                    };
                     int Result = _departmentService.AddDepartment(departmentDto);
+                    string Message;
                     if (Result > 0)
                     {
-                        //return View(nameof(Index));
-                        return RedirectToAction(nameof(Index));
+                        Message = $"Department {DepartmentViewModel.Name} Is Created Successfully";
                     }
                     else
                     {
+                        Message = $"Department {DepartmentViewModel.Name} Can't Be Created";
+
                         ModelState.AddModelError(string.Empty, "DepartMent Can't Be Created ");
-                        //return View(departmentDto);
                     }
+
+                    TempData["Message"] = Message;
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
-                {
+                { 
                     if (_environment.IsDevelopment())
                     {
                         // 1. Development => Log Error In Console and Return Same View With Error Message
@@ -63,7 +79,7 @@ namespace Demo.Presentation.Controllers
             //{
 
             //}
-            return View(departmentDto);
+            return View(DepartmentViewModel);
         }
 
         #endregion
@@ -88,7 +104,7 @@ namespace Demo.Presentation.Controllers
             if (!id.HasValue) return BadRequest();
             var department = _departmentService.GetDepartmentById(id.Value);
             if (department is null) return NotFound();
-            var departmentViewModel = new DepartmentEditViewModel()
+            var departmentViewModel = new DepartmentViewModel()
             {
 
                 Code = department.Code,
@@ -103,7 +119,7 @@ namespace Demo.Presentation.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit([FromRoute] int id, DepartmentEditViewModel viewModel)
+        public IActionResult Edit([FromRoute] int id, DepartmentViewModel viewModel)
         {
             if (ModelState.IsValid)
             {

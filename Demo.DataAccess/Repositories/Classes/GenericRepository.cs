@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Demo.DataAccess.Data.Contexts;
@@ -34,35 +35,42 @@ namespace Demo.DataAccess.Repositories.Classes
 
         }
 
-        public int Add(TEntity entity)
+        public IEnumerable<TEntity> GetAll(Expression<Func<TEntity, bool>> Predicate)
+        {
+            return DbContext.Set<TEntity>()
+                .Where(Predicate)
+                .ToList();  
+
+
+
+        }
+
+        public void Add(TEntity entity)
         {
             DbContext.Set<TEntity>().Add(entity);
-            return DbContext.SaveChanges();
 
         }
 
 
-        public int Remove(TEntity entity)
+        public void Remove(TEntity entity)
         {
 
             DbContext.Set<TEntity>().Remove(entity);
-            return DbContext.SaveChanges();
 
         }
 
 
-        public int Update(TEntity entity)
+        public void Update(TEntity entity)
         {
             DbContext.Set<TEntity>().Update(entity);
-            return DbContext.SaveChanges();
 
         }
 
-       
+      
     }
 
 
 
 
-
+    
 }

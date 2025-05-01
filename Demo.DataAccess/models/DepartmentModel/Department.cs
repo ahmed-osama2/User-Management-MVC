@@ -14,5 +14,7 @@ namespace Demo.DataAccess.models.DepartmentModel
 
         public string? Description { get; set; }
 
+        public virtual  ICollection<Employee> Employees { get; set; } = new HashSet<Employee>();
+
     }
 }
