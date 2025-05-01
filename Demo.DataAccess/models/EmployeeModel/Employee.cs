@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Demo.DataAccess.models.DepartmentModel;
 using Demo.DataAccess.models.Shared;
 using Demo.DataAccess.models.Shared.Enums;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Demo.DataAccess.models.EmployeeModel
 {
@@ -20,5 +22,10 @@ namespace Demo.DataAccess.models.EmployeeModel
         public DateTime HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+
+
+        //relashinship whit department
+        public int? DepartmentId { get; set; } // fk
+        public virtual Department? Department { get; set; }
     }
 }

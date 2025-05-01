@@ -24,7 +24,7 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDtos
         [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
         [Display(Name = "Is Active")]
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; }  
         [EmailAddress]
         public string? Email { get; set; }
         [Display(Name = "Phone Number")]
@@ -34,5 +34,6 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDtos
         public DateOnly HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        public int? DepartmentId { get; set; } // fk
     }
 }

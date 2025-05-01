@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Demo.DataAccess.models.EmployeeModel;
+﻿using Demo.DataAccess.models.EmployeeModel;
 using Demo.DataAccess.models.Shared.Enums;
+using System.ComponentModel.DataAnnotations;
 
-namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDtos
+namespace Demo.Presentation.ViewModels.EmployeeViewModel
 {
-    public class CreatedEmployeeDto
+    public class EmployeeViewModel
     {
         [Required]
         [MaxLength(50, ErrorMessage = "Max length should be 50 character")]
@@ -17,8 +12,9 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDtos
         public string Name { get; set; } = null!;
         [Range(22, 35)]
         public int? Age { get; set; }
-        [RegularExpression("^[1-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}$",
-           ErrorMessage = "Address must be like 123-Street-City-Country")]
+        //[RegularExpression("^[1-9]{1,3}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}-[a-zA-Z]{5,10}$",
+        //   ErrorMessage = "Address must be like 123-Street-City-Country")]
+        [Required]
         public string? Address { get; set; }
         [DataType(DataType.Currency)]
         public decimal Salary { get; set; }
@@ -33,8 +29,7 @@ namespace Demo.BusinessLogic.DataTransferObjects.EmployeeDtos
         public DateOnly HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
-
+        [Display(Name="Department")]
         public int? DepartmentId { get; set; } // fk
-
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDtos;
+using Demo.DataAccess.models.DepartmentModel;
 using Demo.DataAccess.models.EmployeeModel;
 using Microsoft.Extensions.Options;
 
@@ -17,12 +18,20 @@ namespace Demo.BusinessLogic.Profiles
         {
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(des => des.EmpGender, Options => Options.MapFrom(Src => Src.Gender))
-                .ForMember(des => des.EmpType, Options => Options.MapFrom(Src => Src.EmployeeType));
+                .ForMember(des => des.EmpType, Options => Options.MapFrom(Src => Src.EmployeeType))
+                .ForMember(des=> des.Department, Options => Options.MapFrom( Src => Src.Department != null ? Src.Department.Name : null));
+
+
+
+
+             
 
             CreateMap<Employee, EmployeeDetailsDto>()
                 .ForMember(des => des.Gender, Options => Options.MapFrom(Src => Src.Gender))
                 .ForMember(des => des.EmployeeType, Options => Options.MapFrom(Src => Src.EmployeeType))
-               .ForMember(dest => dest.HiringDate, options => options.MapFrom(src => DateOnly.FromDateTime(src.HiringDate)));
+               .ForMember(des => des.HiringDate, options => options.MapFrom(src => DateOnly.FromDateTime(src.HiringDate)))
+                .ForMember(des => des.Department, Options => Options.MapFrom(Src => Src.Department != null ? Src.Department.Name : null));
+
 
             CreateMap<CreatedEmployeeDto, Employee>()
                 .ForMember(dest => dest.HiringDate, options => options.MapFrom(src => src.HiringDate.ToDateTime(TimeOnly.MinValue)));
