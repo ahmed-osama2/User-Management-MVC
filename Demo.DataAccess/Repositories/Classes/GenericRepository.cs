@@ -23,7 +23,8 @@ namespace Demo.DataAccess.Repositories.Classes
             if (WithTracking)
                 return DbContext.Set<TEntity>().Where( E => E.IsDeleted != true).ToList();
             else
-                return DbContext.Set<TEntity>().Where(E => E.IsDeleted != true).AsNoTracking().ToList();
+                return DbContext.Set<TEntity>()
+                    .Where(E => E.IsDeleted != true).AsNoTracking().ToList();
         }
 
         //use  I IQueryable
