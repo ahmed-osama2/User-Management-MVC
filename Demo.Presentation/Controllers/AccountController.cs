@@ -1,4 +1,5 @@
 ﻿using Demo.DataAccess.models.IdentityModel;
+using Demo.Presentation.Utilities;
 using Demo.Presentation.ViewModels;
 using Demo.Presentation.ViewModels.IdentityViewModel;
 using Microsoft.AspNetCore.Identity;
@@ -81,6 +82,46 @@ namespace Demo.Presentation.Controllers
 
         }
 
+        #endregion
+
+        #region forgetPassowrd
+
+        [HttpGet]
+        public IActionResult ForgetPassword() => View();
+
+        [HttpPost]
+        public IActionResult SendResetPasswordLink(ForgetPasswordViewModel forgetPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _userManager.FindByEmailAsync(forgetPasswordViewModel.Email).Result;
+
+                if (user is not null)
+                {
+                    var Token = _userManager.GeneratePasswordResetTokenAsync(user).Result;
+                    var ResetPasswordLink = Url.Action("ResetPassword", "Account", new { email = forgetPasswordViewModel.Email, Token }, Request.Scheme);
+
+                    var Email = new Email()
+                    {
+                        To = forgetPasswordViewModel.Email,
+                        Subject = "Reset Password",
+                        Body = "ResetPasswordLink" //Todo
+                    };
+
+                    EmailSettings.SendEmail(Email);
+                    return RedirectToAction(nameof(CheckYourInbox));
+
+                }
+                 
+            }
+
+            ModelState.AddModelError(string.Empty, "Invalid Operation");
+            return View(nameof(ForgetPassword), forgetPasswordViewModel);
+
+        }
+
+        [HttpGet]
+        public IActionResult CheckYourInbox() => View();
         #endregion
 
         // Login
