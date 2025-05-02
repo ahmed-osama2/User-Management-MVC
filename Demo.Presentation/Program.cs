@@ -1,9 +1,12 @@
 ﻿using Demo.BusinessLogic.Profiles;
+using Demo.BusinessLogic.Services.AttachmenetService;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.models.IdentityModel;
 using Demo.DataAccess.Repositories.Classes;
 using Demo.DataAccess.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -40,6 +43,13 @@ namespace Demo.Presentation
             //builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             //// Inject _unitOfWork
             //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            //// AttachmenetService
+            //builder.Services.AddScoped<IAttachmenetService, AttachmenetService>();
+
+
+
+
+            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             //#region  Configure the HTTP request pipelineMyRegion
 
@@ -58,11 +68,12 @@ namespace Demo.Presentation
 
             //app.UseRouting();
 
-            ////app.UseAuthorization();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             //app.MapControllerRoute(
             //    name: "default",
-            //    pattern: "{controller=Home}/{action=Index}/{id?}");
+            //    pattern: "{controller=Account}/{action=Register}/{id?}");
             //#endregion
 
             //app.Run();

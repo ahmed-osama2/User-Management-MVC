@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Configuration.Annotations;
 using Demo.BusinessLogic.DataTransferObjects.EmployeeDtos;
+using Demo.BusinessLogic.Services.AttachmenetService;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.models.EmployeeModel;
 using Demo.DataAccess.Repositories.Classes;
@@ -13,9 +14,9 @@ using Demo.DataAccess.Repositories.Interfaces;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork _unitOfWork, IMapper _mapper, IAttachmenetService _attachmenetService) : IEmployeeService
     {
-  
+
 
 
         public IEnumerable<EmployeeDto> GetAllEmployees(string? EmployeeSearchName)
@@ -37,7 +38,7 @@ namespace Demo.BusinessLogic.Services.Classes
 
 
             IEnumerable<Employee> employees;
-            if (string.IsNullOrWhiteSpace( EmployeeSearchName))
+            if (string.IsNullOrWhiteSpace(EmployeeSearchName))
                 employees = _unitOfWork.EmployeeRepository.GetAll();
             else
                 employees = _unitOfWork.EmployeeRepository.GetAll(E => E.Name.ToLower().Contains(EmployeeSearchName.ToLower()));
@@ -56,14 +57,23 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int CreateEmployee(CreatedEmployeeDto employeeDto)
         {
-            var employee = _mapper.Map<CreatedEmployeeDto, Employee>( employeeDto);
-             _unitOfWork.EmployeeRepository.Add( employee);
+            var employee = _mapper.Map<CreatedEmployeeDto, Employee>(employeeDto);
+
+            if (employeeDto.Image is not null)
+            {
+                employee.ImageName = _attachmenetService.Upload(file: employeeDto.Image, FolderName: "Images");
+
+            }
+
+
+
+            _unitOfWork.EmployeeRepository.Add(employee);
             return _unitOfWork.SaveChanges();
         }
-        public int UpdatedEmployee(UpdatedEmployeeDto employeeDto) 
+        public int UpdatedEmployee(UpdatedEmployeeDto employeeDto)
         {
-             _unitOfWork.EmployeeRepository.Update(_mapper.Map<UpdatedEmployeeDto, Employee>(employeeDto));
-            return _unitOfWork.SaveChanges();   
+            _unitOfWork.EmployeeRepository.Update(_mapper.Map<UpdatedEmployeeDto, Employee>(employeeDto));
+            return _unitOfWork.SaveChanges();
         }
 
         public bool DeleteEmployee(int id)
@@ -73,7 +83,7 @@ namespace Demo.BusinessLogic.Services.Classes
             else
             {
                 employee.IsDeleted = true;
-                 _unitOfWork.EmployeeRepository.Update(employee) ;
+                _unitOfWork.EmployeeRepository.Update(employee);
                 return _unitOfWork.SaveChanges() > 0 ? true : false;
             }
         }
