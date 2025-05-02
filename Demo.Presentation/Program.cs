@@ -1,4 +1,5 @@
-﻿using Demo.BusinessLogic.Profiles;
+﻿using System;
+using Demo.BusinessLogic.Profiles;
 using Demo.BusinessLogic.Services.AttachmenetService;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
@@ -48,8 +49,9 @@ namespace Demo.Presentation
 
 
 
-
-            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            //builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            //  .AddEntityFrameworkStores<ApplicationDbContext>()
+            //  .AddDefaultTokenProviders();
 
             //#region  Configure the HTTP request pipelineMyRegion
 

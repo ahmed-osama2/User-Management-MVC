@@ -105,7 +105,7 @@ namespace Demo.Presentation.Controllers
                     {
                         To = forgetPasswordViewModel.Email,
                         Subject = "Reset Password",
-                        Body = "ResetPasswordLink" //Todo
+                        Body = ResetPasswordLink
                     };
 
                     EmailSettings.SendEmail(Email);
@@ -122,6 +122,42 @@ namespace Demo.Presentation.Controllers
 
         [HttpGet]
         public IActionResult CheckYourInbox() => View();
+
+
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            TempData["email"] = email;
+            TempData["token"] = token;
+
+            return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
+        {
+            if (!ModelState.IsValid) return View(resetPasswordViewModel);
+
+            string email = TempData["email"] as string ?? string.Empty;
+            string token = TempData["token"] as string ?? string.Empty;
+            var user = _userManager.FindByEmailAsync(email).Result;
+
+            if (user is not null)
+            {
+                var Result = _userManager.ResetPasswordAsync(user, token, resetPasswordViewModel.Password).Result;
+                if (Result.Succeeded)
+                    return RedirectToAction(nameof(Login));
+                else
+                {
+                    foreach (var Err in Result.Errors)
+                        ModelState.AddModelError(string.Empty, Err.Description);
+                }
+
+            }
+            return View(nameof(ResetPassword), resetPasswordViewModel);
+
+        }
         #endregion
 
         // Login
