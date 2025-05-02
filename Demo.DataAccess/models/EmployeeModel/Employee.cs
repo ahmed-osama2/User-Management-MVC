@@ -27,5 +27,7 @@ namespace Demo.DataAccess.models.EmployeeModel
         //relashinship whit department
         public int? DepartmentId { get; set; } // fk
         public virtual Department? Department { get; set; }
+
+        public string? ImageName { get; set; }
     }
 }

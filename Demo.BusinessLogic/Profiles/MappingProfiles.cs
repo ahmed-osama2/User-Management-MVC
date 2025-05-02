@@ -30,7 +30,8 @@ namespace Demo.BusinessLogic.Profiles
                 .ForMember(des => des.Gender, Options => Options.MapFrom(Src => Src.Gender))
                 .ForMember(des => des.EmployeeType, Options => Options.MapFrom(Src => Src.EmployeeType))
                .ForMember(des => des.HiringDate, options => options.MapFrom(src => DateOnly.FromDateTime(src.HiringDate)))
-                .ForMember(des => des.Department, Options => Options.MapFrom(Src => Src.Department != null ? Src.Department.Name : null));
+                .ForMember(des => des.Department, Options => Options.MapFrom(Src => Src.Department != null ? Src.Department.Name : null))
+                .ForMember(des=>des.Image ,Options=>Options.MapFrom(Src=>Src.ImageName));
 
 
             CreateMap<CreatedEmployeeDto, Employee>()
